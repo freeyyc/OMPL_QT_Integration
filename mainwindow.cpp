@@ -10,6 +10,8 @@
 #include <ompl/config.h>
 #include <iostream>
 
+#include "util.h"
+
 namespace ob = ompl::base;
 namespace og = ompl::geometric;
 
@@ -78,24 +80,9 @@ bool isStateValid(const ob::State *state)
           // get the goal representation from the problem definition (not the same as the goal state)
           // and inquire about the found path
           auto path = pdef->getSolutionPath()->as<og::PathGeometric>();
-          auto path_states = path->getStates();
-          std::cout << "Found solution:" << std::endl;
-          std::cout << path_states.size() << std::endl;
-          QVector<double> x(path_states.size()), y(path_states.size()); // initialize with entries 0..100
-          int i = 0;
-          for (const auto & state:path_states){
-              auto *pos = state->as<ob::RealVectorStateSpace::StateType>();
 
-              std::cout << pos->values[0] << " ";
-              std::cout << pos->values[1] << std::endl;
-              x[i] = pos->values[0];
-              y[i] = pos->values[1];
-              i++;
-          }
-          ui->customPlot->addGraph();
-          ui->customPlot->graph(0)->setData(x, y);
-          // print the path to screen
-//          path->print(std::cout);
+          std::cout << "Found solution:" << std::endl;
+          util::draw_geometric_path(ui->customPlot,path);
       }
       else
           std::cout << "No solution found" << std::endl;
@@ -115,36 +102,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    ui->customPlot->clearPlottables();
+    util::draw_square(ui->customPlot,Point{-50,-50},Point{50,50}, Qt::gray);
+
     plan(ui);
-    // generate some data:
-    QVector<double> x(5), y(5); // initialize with entries 0..100
-    QVector<QCPCurveData> square_data(5);
-
-    x[0] = -50;
-    y[0] = -50;
-
-    x[1] = -50;
-    y[1] = 50;
-
-    x[2] = 50;
-    y[2] = 50;
-
-    x[3] = 50;
-    y[3] = -50;
-
-    x[4] = -50;
-    y[4] = -50;
-
-    QCPCurve *square = new QCPCurve(ui->customPlot->xAxis, ui->customPlot->yAxis);
-
-    for(int i = 0; i<5; i++){
-        square_data[i] = QCPCurveData(i,x[i],y[i]);
-    }
-
-    square->data()->set(square_data,true);
-    square->setPen(QPen(Qt::blue));
-    square->setBrush(QBrush(QColor(0, 0, 255, 20)));
-
     // create graph and assign data to it:
     // give the axes some labels:
     ui->customPlot->xAxis->setLabel("x");
