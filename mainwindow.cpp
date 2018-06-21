@@ -2,14 +2,21 @@
 #include "ui_mainwindow.h"
 
 #include <ompl/base/SpaceInformation.h>
+#include <ompl/base/PlannerData.h>
 #include <ompl/base/spaces/SE3StateSpace.h>
 #include <ompl/geometric/planners/rrt/RRTConnect.h>
 #include <ompl/geometric/planners/rrt/RRTstar.h>
+#include <ompl/geometric/planners/rrt/RRT.h>
+#include <ompl/geometric/planners/sst/SST.h>
+#include <ompl/geometric/planners/kpiece/KPIECE1.h>
+#include <ompl/geometric/planners/prm/PRM.h>
+#include <ompl/geometric/planners/cforest/CForest.h>
 #include <ompl/geometric/SimpleSetup.h>
 
 #include <ompl/config.h>
 #include <iostream>
 
+#include <boost/utility.hpp>
 #include "util.h"
 
 namespace ob = ompl::base;
@@ -43,12 +50,15 @@ bool isStateValid(const ob::State *state)
      si->setStateValidityChecker(isStateValid);
 
      // create a random start state
-     ob::ScopedState<> start(space);
-     start.random();
+     ob::ScopedState<ob::RealVectorStateSpace> start(space);
+     start->values[0] = -70;
+     start->values[1] = 30;
+
 
      // create a random goal state
-     ob::ScopedState<> goal(space);
-     goal.random();
+     ob::ScopedState<ob::RealVectorStateSpace> goal(space);
+     goal->values[0] = 80;
+     goal->values[1] = -30;
 
      // create a problem instance
      auto pdef(std::make_shared<ob::ProblemDefinition>(si));
@@ -57,7 +67,7 @@ bool isStateValid(const ob::State *state)
       pdef->setStartAndGoalStates(start, goal);
 
       // create a planner for the defined space
-      auto planner(std::make_shared<og::RRTstar>(si));
+      auto planner(std::make_shared<og::CForest>(si));
 
       // set the problem we are trying to solve for the planner
       planner->setProblemDefinition(pdef);
@@ -75,8 +85,27 @@ bool isStateValid(const ob::State *state)
       // attempt to solve the problem within one second of planning time
       ob::PlannerStatus solved = planner->ob::Planner::solve(1.0);
 
+      ob::PlannerData planner_data{si};
+      planner->getPlannerData(planner_data);
+
       if (solved)
       {
+          std::cout << "Numero de vertices: " << planner_data.numVertices() << std::endl;
+          std::cout << "Numero de cantos: " << planner_data.numEdges() << std::endl;
+
+          auto start_vertex_index = planner_data.getStartIndex(0);
+          std::cout << start_vertex_index << std::endl;
+
+          for(unsigned i = 0; i < planner_data.numVertices(); i++){
+            std::vector<unsigned int> edgeList;
+            planner_data.getEdges(i,edgeList);
+            Point origin = util::convert_vertex(planner_data.getVertex(i));
+            for(const auto & edge:edgeList){
+                Point destiny = util::convert_vertex(planner_data.getVertex(edge));
+                util::draw_line(ui->customPlot,origin,destiny,Qt::red);
+            }
+          }
+
           // get the goal representation from the problem definition (not the same as the goal state)
           // and inquire about the found path
           auto path = pdef->getSolutionPath()->as<og::PathGeometric>();

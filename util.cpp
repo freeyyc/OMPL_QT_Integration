@@ -53,6 +53,27 @@ QCPCurve *draw_square(QCustomPlot *customPlot, Point lower_left_corner, Point to
 
     QCPCurve *curve = draw_points(customPlot, x, y, color);
     curve->setBrush(QBrush(color));
+    return curve;
+}
+
+QCPCurve *draw_line(QCustomPlot *customPlot, Point P1, Point P2 , Qt::GlobalColor color){
+    QVector<double> x(2);
+    QVector<double> y(2);
+
+    x[0] = P1.x;
+    y[0] = P1.y;
+
+    x[1] = P2.x;
+    y[1] = P2.y;
+
+    QCPCurve *curve = draw_points(customPlot, x, y, color);
+    curve->setBrush(QBrush(color));
+    return curve;
+}
+
+Point convert_vertex(ob::PlannerDataVertex& vertex){
+    auto * state = vertex.getState()->as<ob::RealVectorStateSpace::StateType>();
+    return Point{state->values[0],state->values[1]};
 }
 
 }
