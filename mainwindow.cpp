@@ -17,19 +17,12 @@
 #include <iostream>
 
 #include <boost/utility.hpp>
-#include "util.h"
+#include "customdrawer.h"
+#include "obstacle.h"
+#include "mapstatevaliditychecker.h"
 
 namespace ob = ompl::base;
 namespace og = ompl::geometric;
-
-bool isStateValid(const ob::State *state)
-   {
-
-       // extract the first component of the state and cast it to what we expect
-       const auto *pos = state->as<ob::RealVectorStateSpace::StateType>();
-
-       return !(pos->values[0] > -50 && pos->values[0] < 50 && pos->values[1] > -50 && pos->values[1] < 50 );
-   }
 
  void plan(const Ui::MainWindow *ui)
  {
@@ -46,8 +39,17 @@ bool isStateValid(const ob::State *state)
      // construct an instance of  space information from this state space
      auto si(std::make_shared<ob::SpaceInformation>(space));
 
+     Map2d map{100,100};
+
+     map.insertObstacle(Obstacle{{-50,-100},{50,-10}});
+     map.insertObstacle(Obstacle{{-50, 10},{50,100}});
+
+
+     auto map_state_checker(std::make_shared<MapStateValidityChecker>(si,map));
+
      // set state validity checking for this space
-     si->setStateValidityChecker(isStateValid);
+//     si->setStateValidityChecker(isStateValid);
+    si->setStateValidityChecker(map_state_checker);
 
      // create a random start state
      ob::ScopedState<ob::RealVectorStateSpace> start(space);
@@ -67,7 +69,7 @@ bool isStateValid(const ob::State *state)
       pdef->setStartAndGoalStates(start, goal);
 
       // create a planner for the defined space
-      auto planner(std::make_shared<og::CForest>(si));
+      auto planner(std::make_shared<og::PRM>(si));
 
       // set the problem we are trying to solve for the planner
       planner->setProblemDefinition(pdef);
@@ -88,30 +90,20 @@ bool isStateValid(const ob::State *state)
       ob::PlannerData planner_data{si};
       planner->getPlannerData(planner_data);
 
+      CustomDrawer drawer(ui->customPlot);
+
       if (solved)
       {
           std::cout << "Numero de vertices: " << planner_data.numVertices() << std::endl;
           std::cout << "Numero de cantos: " << planner_data.numEdges() << std::endl;
-
-          auto start_vertex_index = planner_data.getStartIndex(0);
-          std::cout << start_vertex_index << std::endl;
-
-          for(unsigned i = 0; i < planner_data.numVertices(); i++){
-            std::vector<unsigned int> edgeList;
-            planner_data.getEdges(i,edgeList);
-            Point origin = util::convert_vertex(planner_data.getVertex(i));
-            for(const auto & edge:edgeList){
-                Point destiny = util::convert_vertex(planner_data.getVertex(edge));
-                util::draw_line(ui->customPlot,origin,destiny,Qt::red);
-            }
-          }
 
           // get the goal representation from the problem definition (not the same as the goal state)
           // and inquire about the found path
           auto path = pdef->getSolutionPath()->as<og::PathGeometric>();
 
           std::cout << "Found solution:" << std::endl;
-          util::draw_geometric_path(ui->customPlot,path);
+          drawer.drawSearchGraph(planner_data);
+          drawer.drawGeometricPath(path);
       }
       else
           std::cout << "No solution found" << std::endl;
@@ -119,8 +111,7 @@ bool isStateValid(const ob::State *state)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+    ui(new Ui::MainWindow){
     ui->setupUi(this);
 }
 
@@ -131,8 +122,18 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
+    CustomDrawer drawer(ui->customPlot);
+
     ui->customPlot->clearPlottables();
-    util::draw_square(ui->customPlot,Point{-50,-50},Point{50,50}, Qt::gray);
+
+    Map2d map{100,100};
+
+    map.insertObstacle(Obstacle{{-50,-100},{50,-10}});
+    map.insertObstacle(Obstacle{{-50, 10},{50,100}});
+
+    drawer.drawMap2d(map);
+//    drawer.drawSquare(Point{-50,-50},Point{50,50}, Qt::gray);
+
 
     plan(ui);
     // create graph and assign data to it:

@@ -27,12 +27,21 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     qcustomplot.cpp \
-    util.cpp
+    customdrawer.cpp \
+    map2d.cpp \
+    obstacle.cpp \
+    mapstatevaliditychecker.cpp \
+    plannercomparer.cpp
 
 HEADERS += \
         mainwindow.h \
     qcustomplot.h \
-    util.h
+    customdrawer.h \
+    map2d.h \
+    obstacle.h \
+    point.h \
+    mapstatevaliditychecker.h \
+    plannercomparer.h
 
 FORMS += \
         mainwindow.ui
