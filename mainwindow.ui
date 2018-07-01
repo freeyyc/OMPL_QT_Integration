@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1241</width>
-    <height>716</height>
+    <width>1373</width>
+    <height>673</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>140</x>
       <y>10</y>
       <width>1211</width>
       <height>601</height>
@@ -27,14 +27,181 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>1140</x>
-      <y>620</y>
+      <x>30</x>
+      <y>570</y>
       <width>89</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Executar</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="comboBox">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Estreito</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Cercado</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Denso</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="comboBox_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>RRT</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>RRT Connect</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>RRT*</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Lazy RRT</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>RRT#</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>SST</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>PRM</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Lazy PRM</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>PRM*</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Lazy PRM*</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>SBL</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>KPIECE</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>20</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Ambiente</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>71</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Algoritmo</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>120</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Passo</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>170</y>
+      <width>67</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bias</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>113</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>190</y>
+      <width>113</width>
+      <height>25</height>
+     </rect>
     </property>
    </widget>
   </widget>
@@ -43,7 +210,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1241</width>
+     <width>1373</width>
      <height>22</height>
     </rect>
    </property>
