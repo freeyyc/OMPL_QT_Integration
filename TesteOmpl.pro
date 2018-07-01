@@ -31,7 +31,8 @@ SOURCES += \
     map2d.cpp \
     obstacle.cpp \
     mapstatevaliditychecker.cpp \
-    plannercomparer.cpp
+    plannercomparer.cpp \
+    mainwindowviewmodel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -41,7 +42,12 @@ HEADERS += \
     obstacle.h \
     point.h \
     mapstatevaliditychecker.h \
-    plannercomparer.h
+    plannercomparer.h \
+    mainwindowviewmodel.h \
+    plannerinterface.h \
+    envinterface.h \
+    rrtplanner.h \
+    estreitoenv.h
 
 FORMS += \
         mainwindow.ui

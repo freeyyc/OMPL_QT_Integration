@@ -9,6 +9,7 @@
 #include <ompl/geometric/planners/rrt/RRT.h>
 #include <ompl/geometric/planners/sst/SST.h>
 #include <ompl/geometric/planners/kpiece/KPIECE1.h>
+#include <ompl/geometric/planners/kpiece/LBKPIECE1.h>
 #include <ompl/geometric/planners/prm/PRM.h>
 #include <ompl/geometric/planners/cforest/CForest.h>
 #include <ompl/geometric/SimpleSetup.h>
@@ -69,7 +70,9 @@ namespace og = ompl::geometric;
       pdef->setStartAndGoalStates(start, goal);
 
       // create a planner for the defined space
-      auto planner(std::make_shared<og::PRM>(si));
+      auto planner(std::make_shared<og::RRT>(si));
+
+      planner->setRange(1);
 
       // set the problem we are trying to solve for the planner
       planner->setProblemDefinition(pdef);
