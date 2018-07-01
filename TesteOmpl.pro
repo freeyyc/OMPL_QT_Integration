@@ -46,8 +46,7 @@ HEADERS += \
     mainwindowviewmodel.h \
     plannerinterface.h \
     envinterface.h \
-    rrtplanner.h \
-    estreitoenv.h
+    utils.h
 
 FORMS += \
         mainwindow.ui

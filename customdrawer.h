@@ -12,7 +12,7 @@ namespace ob = ompl::base;
 
 class CustomDrawer{
 public:
-    explicit CustomDrawer(QCustomPlot *custom_plot): m_custom_plot{custom_plot}{}
+    explicit CustomDrawer(QCustomPlot *custom_plot): m_custom_plot{custom_plot}{std::cout << "NO CONSTRUTOR " << (custom_plot == nullptr) << " " << custom_plot << std::endl;}
 
     QCPCurve* drawPoints(const QVector<double> & x, const QVector<double> & y , Qt::GlobalColor color = Qt::blue);
     QCPCurve* drawGeometricPath(og::PathGeometric * path, Qt::GlobalColor color = Qt::blue);
@@ -21,7 +21,7 @@ public:
     void drawMap2d(const Map2d & map, Qt::GlobalColor color = Qt::gray);
     void drawSearchGraph(ob::PlannerData & planner_data, Qt::GlobalColor color = Qt::red);
 private:
-    QCustomPlot * m_custom_plot;
+    QCustomPlot* m_custom_plot;
 };
 
 #endif // CUSTOMDRAWER_H

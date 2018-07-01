@@ -37,7 +37,7 @@
      <string>Executar</string>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="envComboBox">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -46,23 +46,8 @@
       <height>21</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>Estreito</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Cercado</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Denso</string>
-     </property>
-    </item>
    </widget>
-   <widget class="QComboBox" name="comboBox_2">
+   <widget class="QComboBox" name="plannerComboBox">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -71,66 +56,6 @@
       <height>21</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>RRT</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>RRT Connect</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>RRT*</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Lazy RRT</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>RRT#</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>SST</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>PRM</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Lazy PRM</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>PRM*</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Lazy PRM*</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>SBL</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>KPIECE</string>
-     </property>
-    </item>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">

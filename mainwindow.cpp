@@ -21,6 +21,9 @@
 #include "customdrawer.h"
 #include "obstacle.h"
 #include "mapstatevaliditychecker.h"
+#include "utils.h"
+#include "rrtplanner.h"
+#include "estreitoenv.h"
 
 namespace ob = ompl::base;
 namespace og = ompl::geometric;
@@ -114,8 +117,20 @@ namespace og = ompl::geometric;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow){
+    ui(new Ui::MainWindow),
+    m_view_model{ui->customPlot}{
     ui->setupUi(this);
+
+    m_view_model = MainWindowViewModel(ui->customPlot);
+
+    m_view_model.addEnviroment(new EstreitoEnv());
+
+    m_view_model.addPlanner(new RRTPlanner());
+
+    ui->envComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getEnvironmentNames()));
+    ui->plannerComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getPlannerNames()));
+
+    m_view_model.environmentChanged(ui->envComboBox->currentText().toStdString());
 }
 
 MainWindow::~MainWindow()
@@ -125,30 +140,33 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    CustomDrawer drawer(ui->customPlot);
+//    std::cout << ui->envComboBox->currentText().toStdString() << std::endl;
+//    CustomDrawer drawer(ui->customPlot);
+//    drawer.drawMap2d(m_view_model.getEnvironment(ui->envComboBox->currentText().toStdString())->getMap());
 
-    ui->customPlot->clearPlottables();
+    //    CustomDrawer drawer(ui->customPlot);
 
-    Map2d map{100,100};
+//    ui->customPlot->clearPlottables();
 
-    map.insertObstacle(Obstacle{{-50,-100},{50,-10}});
-    map.insertObstacle(Obstacle{{-50, 10},{50,100}});
+//    Map2d map{100,100};
 
-    drawer.drawMap2d(map);
-//    drawer.drawSquare(Point{-50,-50},Point{50,50}, Qt::gray);
+//    map.insertObstacle(Obstacle{{-50,-100},{50,-10}});
+//    map.insertObstacle(Obstacle{{-50, 10},{50,100}});
+
+//    drawer.drawMap2d(map);
+////    drawer.drawSquare(Point{-50,-50},Point{50,50}, Qt::gray);
 
 
-    plan(ui);
-    // create graph and assign data to it:
-    // give the axes some labels:
-    ui->customPlot->xAxis->setLabel("x");
-    ui->customPlot->yAxis->setLabel("y");
-    // set axes ranges, so we see all data:
-    ui->customPlot->xAxis->setRange(-100, 100);
-    ui->customPlot->yAxis->setRange(-100, 100);
-    // set some basic customPlot config:
-    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
-//    ui->customPlot->axisRect()->setupFullAxesBox();
-//    ui->customPlot->rescaleAxes();
-    ui->customPlot->replot();
+//    plan(ui);
+//    // create graph and assign data to it:
+//    // give the axes some labels:
+//    ui->customPlot->xAxis->setLabel("x");
+//    ui->customPlot->yAxis->setLabel("y");
+//    // set axes ranges, so we see all data:
+
+//    // set some basic customPlot config:
+//    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
+////    ui->customPlot->axisRect()->setupFullAxesBox();
+////    ui->customPlot->rescaleAxes();
+    //ui->customPlot->replot();
 }
