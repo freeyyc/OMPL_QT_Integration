@@ -32,7 +32,25 @@ SOURCES += \
     obstacle.cpp \
     mapstatevaliditychecker.cpp \
     plannercomparer.cpp \
-    mainwindowviewmodel.cpp
+    mainwindowviewmodel.cpp \
+    customdrawer.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    mainwindowviewmodel.cpp \
+    map2d.cpp \
+    mapstatevaliditychecker.cpp \
+    obstacle.cpp \
+    plannercomparer.cpp \
+    qcustomplot.cpp \
+    customdrawer.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    mainwindowviewmodel.cpp \
+    map2d.cpp \
+    mapstatevaliditychecker.cpp \
+    obstacle.cpp \
+    plannercomparer.cpp \
+    qcustomplot.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -46,8 +64,51 @@ HEADERS += \
     mainwindowviewmodel.h \
     plannerinterface.h \
     envinterface.h \
-    rrtplanner.h \
-    estreitoenv.h
+    estreitoenv.h \
+    rrtstarplanner.h \
+    rrtconnectplanner.h \
+    Planners/rrtplanner.h \
+    customdrawer.h \
+    envinterface.h \
+    estreitoenv.h \
+    mainwindow.h \
+    mainwindowviewmodel.h \
+    map2d.h \
+    mapstatevaliditychecker.h \
+    obstacle.h \
+    plannercomparer.h \
+    plannerinterface.h \
+    point.h \
+    qcustomplot.h \
+    rrtconnectplanner.h \
+    rrtstarplanner.h \
+    Envs/estreitoenv.h \
+    Planners/lazyrrtplanner.h \
+    Planners/rrtconnectplanner.h \
+    Planners/rrtplanner.h \
+    Planners/rrtstarplanner.h \
+    customdrawer.h \
+    envinterface.h \
+    mainwindow.h \
+    mainwindowviewmodel.h \
+    map2d.h \
+    mapstatevaliditychecker.h \
+    obstacle.h \
+    plannercomparer.h \
+    plannerinterface.h \
+    point.h \
+    qcustomplot.h \
+    Planners/rrtsharpplanner.h \
+    Planners/sstplanner.h \
+    Planners/prmplanner.h \
+    Planners/prmstarplanner.h \
+    Planners/lazyprmplanner.h \
+    Planners/lazyprmstarplanner.h \
+    Planners/estplanner.h \
+    Planners/sblplanner.h \
+    Planners/kpiece1planner.h \
+    Envs/cercadoenv.h \
+    Envs/densoenv.h
 
 FORMS += \
         mainwindow.ui

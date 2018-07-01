@@ -7,7 +7,7 @@
 
 class EnvInterface{
 public:
-    virtual const std::string & getName() const = 0;
+    virtual std::string getName() const = 0;
     virtual Map2d getMap() const = 0;
 private:
 };

@@ -1,11 +1,11 @@
 #ifndef ESTREITOENV_H
 #define ESTREITOENV_H
 
-#include "envinterface.h"
+#include "../envinterface.h"
 
 class EstreitoEnv : public EnvInterface{
 public:
-    const std::string & getName() const override{
+    std::string getName() const override{
         return "Estreito";
     }
     Map2d getMap() const override{
