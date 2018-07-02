@@ -7,7 +7,7 @@
 namespace ob = ompl::base;
 
 struct Point{
-    Point(double x, double y): x(x), y(y){}
+    Point(double x = 0, double y = 0): x(x), y(y){}
     explicit Point(ob::PlannerDataVertex& vertex){
         auto * state = vertex.getState()->as<ob::RealVectorStateSpace::StateType>();
         x = state->values[0];

@@ -22,151 +22,77 @@
 #include "obstacle.h"
 #include "mapstatevaliditychecker.h"
 #include "utils.h"
-#include "rrtplanner.h"
-#include "estreitoenv.h"
+#include "Envs/envs.h"
+#include "Planners/planners.h"
+
+#include "plot.h"
 
 namespace ob = ompl::base;
 namespace og = ompl::geometric;
 
- void plan(const Ui::MainWindow *ui)
- {
-     // construct the state space we are planning in
-     auto space(std::make_shared<ob::RealVectorStateSpace>(2));
-
-     // set the bounds for the R^3 part of SE(3)
-     ob::RealVectorBounds bounds(2);
-     bounds.setLow(-100);
-     bounds.setHigh(100);
-
-     space->setBounds(bounds);
-
-     // construct an instance of  space information from this state space
-     auto si(std::make_shared<ob::SpaceInformation>(space));
-
-     Map2d map{100,100};
-
-     map.insertObstacle(Obstacle{{-50,-100},{50,-10}});
-     map.insertObstacle(Obstacle{{-50, 10},{50,100}});
-
-
-     auto map_state_checker(std::make_shared<MapStateValidityChecker>(si,map));
-
-     // set state validity checking for this space
-//     si->setStateValidityChecker(isStateValid);
-    si->setStateValidityChecker(map_state_checker);
-
-     // create a random start state
-     ob::ScopedState<ob::RealVectorStateSpace> start(space);
-     start->values[0] = -70;
-     start->values[1] = 30;
-
-
-     // create a random goal state
-     ob::ScopedState<ob::RealVectorStateSpace> goal(space);
-     goal->values[0] = 80;
-     goal->values[1] = -30;
-
-     // create a problem instance
-     auto pdef(std::make_shared<ob::ProblemDefinition>(si));
-
-      // set the start and goal states
-      pdef->setStartAndGoalStates(start, goal);
-
-      // create a planner for the defined space
-      auto planner(std::make_shared<og::RRT>(si));
-
-      planner->setRange(1);
-
-      // set the problem we are trying to solve for the planner
-      planner->setProblemDefinition(pdef);
-
-      // perform setup steps for the planner
-      planner->setup();
-
-
-      // print the settings for this space
-      si->printSettings(std::cout);
-
-      // print the problem settings
-      pdef->print(std::cout);
-
-      // attempt to solve the problem within one second of planning time
-      ob::PlannerStatus solved = planner->ob::Planner::solve(1.0);
-
-      ob::PlannerData planner_data{si};
-      planner->getPlannerData(planner_data);
-
-      CustomDrawer drawer(ui->customPlot);
-
-      if (solved)
-      {
-          std::cout << "Numero de vertices: " << planner_data.numVertices() << std::endl;
-          std::cout << "Numero de cantos: " << planner_data.numEdges() << std::endl;
-
-          // get the goal representation from the problem definition (not the same as the goal state)
-          // and inquire about the found path
-          auto path = pdef->getSolutionPath()->as<og::PathGeometric>();
-
-          std::cout << "Found solution:" << std::endl;
-          drawer.drawSearchGraph(planner_data);
-          drawer.drawGeometricPath(path);
-      }
-      else
-          std::cout << "No solution found" << std::endl;
- }
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    m_view_model{ui->customPlot}{
+    ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-    m_view_model = MainWindowViewModel(ui->customPlot);
+//    m_view_model = MainWindowViewModel(ui->customPlot);
 
+    m_view_model.addEnviroment(new DensoEnv());
+    m_view_model.addEnviroment(new CercadoEnv());
     m_view_model.addEnviroment(new EstreitoEnv());
 
+
+    m_view_model.addPlanner(new ESTPlanner());
+    m_view_model.addPlanner(new KPIECEPlanner());
+    m_view_model.addPlanner(new LazyPRMPlanner());
+    //m_view_model.addPlanner(new LazyPRMStarPlanner());
+    m_view_model.addPlanner(new LazyRRTPlanner());
+    m_view_model.addPlanner(new PRMPlanner());
+    //m_view_model.addPlanner(new PRMStarPlanner());
+    m_view_model.addPlanner(new RRTConnectPlanner());
     m_view_model.addPlanner(new RRTPlanner());
+    m_view_model.addPlanner(new RRTSharpPlanner());
+    m_view_model.addPlanner(new RRTStarPlanner());
+    m_view_model.addPlanner(new SBLPlanner());
+    m_view_model.addPlanner(new SSTPlanner());
+
 
     ui->envComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getEnvironmentNames()));
     ui->plannerComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getPlannerNames()));
 
+    m_view_model.setCustomPlot(ui->customPlot);
     m_view_model.environmentChanged(ui->envComboBox->currentText().toStdString());
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){
     delete ui;
 }
 
-void MainWindow::on_pushButton_clicked()
-{
-//    std::cout << ui->envComboBox->currentText().toStdString() << std::endl;
-//    CustomDrawer drawer(ui->customPlot);
-//    drawer.drawMap2d(m_view_model.getEnvironment(ui->envComboBox->currentText().toStdString())->getMap());
+void MainWindow::setStartPoint(Point start_point){
+    ui->start_x->setText(QString::number(start_point.x));
+    ui->start_y->setText(QString::number(start_point.y));
+}
 
-    //    CustomDrawer drawer(ui->customPlot);
-
-//    ui->customPlot->clearPlottables();
-
-//    Map2d map{100,100};
-
-//    map.insertObstacle(Obstacle{{-50,-100},{50,-10}});
-//    map.insertObstacle(Obstacle{{-50, 10},{50,100}});
-
-//    drawer.drawMap2d(map);
-////    drawer.drawSquare(Point{-50,-50},Point{50,50}, Qt::gray);
+void MainWindow::setGoalPoint(Point goal_point){
+    ui->goal_x->setText(QString::number(goal_point.x));
+    ui->goal_y->setText(QString::number(goal_point.y));
+}
 
 
-//    plan(ui);
-//    // create graph and assign data to it:
-//    // give the axes some labels:
-//    ui->customPlot->xAxis->setLabel("x");
-//    ui->customPlot->yAxis->setLabel("y");
-//    // set axes ranges, so we see all data:
+void MainWindow::on_pushButton_clicked(){
+    auto* planner = m_view_model.getPlanner(ui->plannerComboBox->currentText().toStdString());
+    auto* environment = m_view_model.getEnvironment(ui->envComboBox->currentText().toStdString());
 
-//    // set some basic customPlot config:
-//    ui->customPlot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom | QCP::iSelectPlottables);
-////    ui->customPlot->axisRect()->setupFullAxesBox();
-////    ui->customPlot->rescaleAxes();
-    //ui->customPlot->replot();
+    Plot* plot = new Plot{nullptr, planner->getName()};
+    plot->show();
+    m_view_model.setCustomPlot(plot->getCustomPlot());
+    m_view_model.environmentChanged(environment->getName());
+    m_view_model.plan(planner,environment);
+    plot->getCustomPlot()->replot();
+}
+
+void MainWindow::on_envComboBox_currentTextChanged(const QString &selectedEnvironment){
+    ui->customPlot->clearPlottables();
+    m_view_model.setCustomPlot(ui->customPlot);
+    m_view_model.environmentChanged(selectedEnvironment.toStdString());
 }

@@ -25,97 +25,52 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        customdrawer.cpp \
         mainwindow.cpp \
-    qcustomplot.cpp \
-    customdrawer.cpp \
-    map2d.cpp \
-    obstacle.cpp \
-    mapstatevaliditychecker.cpp \
-    plannercomparer.cpp \
-    mainwindowviewmodel.cpp \
-    customdrawer.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    mainwindowviewmodel.cpp \
-    map2d.cpp \
-    mapstatevaliditychecker.cpp \
-    obstacle.cpp \
-    plannercomparer.cpp \
-    qcustomplot.cpp \
-    customdrawer.cpp \
-    main.cpp \
-    mainwindow.cpp \
-    mainwindowviewmodel.cpp \
-    map2d.cpp \
-    mapstatevaliditychecker.cpp \
-    obstacle.cpp \
-    plannercomparer.cpp \
-    qcustomplot.cpp
+        mainwindowviewmodel.cpp \
+        map2d.cpp \
+        mapstatevaliditychecker.cpp \
+        obstacle.cpp \
+        plannercomparer.cpp \
+        qcustomplot.cpp \
+    plot.cpp
 
 HEADERS += \
+        Envs/cercadoenv.h \
+        Envs/densoenv.h \
+        Envs/estreitoenv.h \
+        Planners/estplanner.h \
+        Planners/kpiece1planner.h \
+        Planners/lazyprmplanner.h \
+        Planners/lazyprmstarplanner.h \
+        Planners/lazyrrtplanner.h \
+        Planners/prmplanner.h \
+        Planners/prmstarplanner.h \
+        Planners/rrtconnectplanner.h \
+        Planners/rrtplanner.h \
+        Planners/rrtsharpplanner.h \
+        Planners/rrtstarplanner.h \
+        Planners/sblplanner.h \
+        Planners/sstplanner.h \
+        customdrawer.h \
+        envinterface.h \
         mainwindow.h \
-    qcustomplot.h \
-    customdrawer.h \
-    map2d.h \
-    obstacle.h \
-    point.h \
-    mapstatevaliditychecker.h \
-    plannercomparer.h \
-    mainwindowviewmodel.h \
-    plannerinterface.h \
-    envinterface.h \
-<<<<<<< HEAD
-    utils.h
-=======
-    estreitoenv.h \
-    rrtstarplanner.h \
-    rrtconnectplanner.h \
-    Planners/rrtplanner.h \
-    customdrawer.h \
-    envinterface.h \
-    estreitoenv.h \
-    mainwindow.h \
-    mainwindowviewmodel.h \
-    map2d.h \
-    mapstatevaliditychecker.h \
-    obstacle.h \
-    plannercomparer.h \
-    plannerinterface.h \
-    point.h \
-    qcustomplot.h \
-    rrtconnectplanner.h \
-    rrtstarplanner.h \
-    Envs/estreitoenv.h \
-    Planners/lazyrrtplanner.h \
-    Planners/rrtconnectplanner.h \
-    Planners/rrtplanner.h \
-    Planners/rrtstarplanner.h \
-    customdrawer.h \
-    envinterface.h \
-    mainwindow.h \
-    mainwindowviewmodel.h \
-    map2d.h \
-    mapstatevaliditychecker.h \
-    obstacle.h \
-    plannercomparer.h \
-    plannerinterface.h \
-    point.h \
-    qcustomplot.h \
-    Planners/rrtsharpplanner.h \
-    Planners/sstplanner.h \
-    Planners/prmplanner.h \
-    Planners/prmstarplanner.h \
-    Planners/lazyprmplanner.h \
-    Planners/lazyprmstarplanner.h \
-    Planners/estplanner.h \
-    Planners/sblplanner.h \
-    Planners/kpiece1planner.h \
-    Envs/cercadoenv.h \
-    Envs/densoenv.h
->>>>>>> 11cfb3e912c64f7e3418fcc00b328fc66ffcf0b6
+        mainwindowviewmodel.h \
+        map2d.h \
+        mapstatevaliditychecker.h \
+        obstacle.h \
+        plannercomparer.h \
+        plannerinterface.h \
+        point.h \
+        qcustomplot.h \
+        utils.h \
+    Planners/planners.h \
+    Envs/envs.h \
+    plot.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    plot.ui
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += ompl

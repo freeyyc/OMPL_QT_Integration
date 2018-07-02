@@ -11,7 +11,13 @@
 
 class MainWindowViewModel{
 public:
+    MainWindowViewModel():m_custom_drawer{nullptr},m_custom_plot{nullptr}{}
     MainWindowViewModel(QCustomPlot* custom_plot):m_custom_drawer{custom_plot},m_custom_plot{custom_plot}{}
+
+    void setCustomPlot(QCustomPlot* custom_plot){
+        m_custom_drawer = CustomDrawer{custom_plot};
+        m_custom_plot = custom_plot;
+    }
 
     void addEnviroment(EnvInterface* interface);
     void addPlanner(PlannerInterface* interface);
@@ -24,7 +30,11 @@ public:
 
     void environmentChanged(std::string name);
 
+    void plan(PlannerInterface *, EnvInterface *);
+
 private:
+    Point m_start_point;
+    Point m_goal_point;
     CustomDrawer m_custom_drawer;
     QCustomPlot* m_custom_plot;
     std::unordered_map<std::string,EnvInterface*> m_environments;

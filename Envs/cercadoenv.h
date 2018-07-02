@@ -13,9 +13,9 @@ public:
 
         map.insertObstacle(Obstacle{{-50, 20},{-30,50}});
         map.insertObstacle(Obstacle{{-50, 50},{50, 70}});
-        map.insertObstacle(Obstacle{{30,-50},{50, 70}});
+        map.insertObstacle(Obstacle{{30,-50},{50, 50}});
         map.insertObstacle(Obstacle{{-50, -70},{50,-50}});
-        map.insertObstacle(Obstacle{{-50,-50},{-30,20}});
+        map.insertObstacle(Obstacle{{-50,-50},{-30,-20}});
 
         return map;
     }
