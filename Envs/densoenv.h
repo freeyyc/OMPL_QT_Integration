@@ -34,6 +34,14 @@ public:
 
         return map;
     }
+
+    virtual Point getStartPoint() const override{
+        return {-95, 95};
+    }
+
+    virtual Point getGoalPoint() const override{
+        return {75, -30};
+    }
 };
 
 #endif // DENSOENV_H

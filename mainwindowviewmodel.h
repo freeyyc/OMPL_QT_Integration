@@ -35,7 +35,9 @@ public:
     void environmentChanged(std::string name);
     void environmentRedraw(std::string name);
 
-    void plan(PlannerInterface *, EnvInterface *);
+    void drawStartGoalPoints(Point start, Point goal);
+
+    void plan(PlannerInterface *, EnvInterface *, Point start_point, Point goal_point);
 
     Point & startPoint(){return m_start_point;}
     Point & goalPoint(){return m_goal_point;}

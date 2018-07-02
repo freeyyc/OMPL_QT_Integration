@@ -53,8 +53,7 @@ void MainWindowViewModel::environmentChanged(std::string name){
         m_custom_plot->yAxis->setRange(-100, 100);
         m_menu_variables->startPoint().set(env->getStartPoint());
         m_menu_variables->goalPoint().set(env->getGoalPoint());
-        m_custom_drawer.drawPoint(env->getStartPoint(),Qt::green);
-        m_custom_drawer.drawPoint(env->getGoalPoint(),Qt::red);
+        drawStartGoalPoints(env->getStartPoint(),env->getGoalPoint());
         m_custom_plot->replot();
     }
 }
@@ -64,13 +63,17 @@ void MainWindowViewModel::environmentRedraw(std::string name){
         m_custom_drawer.drawMap2d(env->getMap());
         m_custom_plot->xAxis->setRange(-100, 100);
         m_custom_plot->yAxis->setRange(-100, 100);
-        m_custom_drawer.drawPoint(m_menu_variables->startPoint().get(),Qt::green);
-        m_custom_drawer.drawPoint(m_menu_variables->goalPoint().get(),Qt::red);
+        drawStartGoalPoints(m_menu_variables->startPoint().get(),m_menu_variables->goalPoint().get());
         m_custom_plot->replot();
     }
 }
 
-void MainWindowViewModel::plan(PlannerInterface * planner_interface, EnvInterface * environment_interface){
+void MainWindowViewModel::drawStartGoalPoints(Point start, Point goal){
+    m_custom_drawer.drawPoint(start,Qt::green);
+    m_custom_drawer.drawPoint(goal,Qt::black);
+}
+
+void MainWindowViewModel::plan(PlannerInterface * planner_interface, EnvInterface * environment_interface, Point start_point, Point goal_point){
     // construct the state space we are planning in
     auto space(std::make_shared<ob::RealVectorStateSpace>(2));
 
@@ -94,14 +97,14 @@ void MainWindowViewModel::plan(PlannerInterface * planner_interface, EnvInterfac
 
     // create a random start state
     ob::ScopedState<ob::RealVectorStateSpace> start(space);
-    start->values[0] = -70;
-    start->values[1] = 30;
+    start->values[0] = start_point.x;
+    start->values[1] = start_point.y;
 
 
     // create a random goal state
     ob::ScopedState<ob::RealVectorStateSpace> goal(space);
-    goal->values[0] = 80;
-    goal->values[1] = -30;
+    goal->values[0] = goal_point.x;
+    goal->values[1] = goal_point.y;
 
     // create a problem instance
     auto pdef(std::make_shared<ob::ProblemDefinition>(si));

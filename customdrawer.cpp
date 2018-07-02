@@ -79,6 +79,7 @@ void CustomDrawer::drawPoint(Point p, Qt::GlobalColor color){
 
     QCPCurve* curve = drawPoints(x,y,color);
     curve->setScatterStyle(QCPScatterStyle::ssCross);
+    curve->setPen(QPen(color,2));
 }
 
 void CustomDrawer::drawMap2d(const Map2d & map, Qt::GlobalColor color){

@@ -19,6 +19,14 @@ public:
 
         return map;
     }
+
+    virtual Point getStartPoint() const override{
+        return {0, 0};
+    }
+
+    virtual Point getGoalPoint() const override{
+        return {80, 0};
+    }
 };
 
 #endif // CERCADOENV_H

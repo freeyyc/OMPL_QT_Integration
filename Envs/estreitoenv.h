@@ -17,11 +17,11 @@ public:
     }
 
     virtual Point getStartPoint() const override{
-        return {-30, 50};
+        return {-40, 80};
     }
 
     virtual Point getGoalPoint() const override{
-        return {30, -50};
+        return {40, -80};
     }
 };
 

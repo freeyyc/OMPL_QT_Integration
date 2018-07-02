@@ -81,8 +81,9 @@ void MainWindow::on_pushButton_clicked(){
     Plot* plot = new Plot{nullptr, planner->getName()};
     plot->show();
     m_view_model.setCustomPlot(plot->getCustomPlot());
-    m_view_model.environmentChanged(environment->getName());
-    m_view_model.plan(planner,environment);
+    m_view_model.environmentRedraw(environment->getName());
+    m_view_model.plan(planner,environment,m_view_model.startPoint(),m_view_model.goalPoint());
+    m_view_model.drawStartGoalPoints(m_view_model.startPoint(),m_view_model.goalPoint());
     plot->getCustomPlot()->replot();
 }
 
