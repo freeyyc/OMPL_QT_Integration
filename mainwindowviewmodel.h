@@ -7,7 +7,7 @@
 #include "plannerinterface.h"
 #include "envinterface.h"
 #include "customdrawer.h"
-
+#include "menuvariables.h"
 
 class MainWindowViewModel{
 public:
@@ -17,6 +17,10 @@ public:
     void setCustomPlot(QCustomPlot* custom_plot){
         m_custom_drawer = CustomDrawer{custom_plot};
         m_custom_plot = custom_plot;
+    }
+
+    void setMenuVariables(MenuVariables* menu_variables){
+        m_menu_variables = menu_variables;
     }
 
     void addEnviroment(EnvInterface* interface);
@@ -29,13 +33,18 @@ public:
     EnvInterface* getEnvironment(std::string name);
 
     void environmentChanged(std::string name);
+    void environmentRedraw(std::string name);
 
     void plan(PlannerInterface *, EnvInterface *);
+
+    Point & startPoint(){return m_start_point;}
+    Point & goalPoint(){return m_goal_point;}
 
 private:
     Point m_start_point;
     Point m_goal_point;
     CustomDrawer m_custom_drawer;
+    MenuVariables* m_menu_variables;
     QCustomPlot* m_custom_plot;
     std::unordered_map<std::string,EnvInterface*> m_environments;
     std::unordered_map<std::string,PlannerInterface*> m_planners;

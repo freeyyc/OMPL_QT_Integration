@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <math.h>
+
 #include <ompl/base/SpaceInformation.h>
 #include <ompl/base/PlannerData.h>
 #include <ompl/base/spaces/SE3StateSpace.h>
@@ -35,8 +37,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow){
     ui->setupUi(this);
 
-//    m_view_model = MainWindowViewModel(ui->customPlot);
-
     m_view_model.addEnviroment(new DensoEnv());
     m_view_model.addEnviroment(new CercadoEnv());
     m_view_model.addEnviroment(new EstreitoEnv());
@@ -56,28 +56,23 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view_model.addPlanner(new SBLPlanner());
     m_view_model.addPlanner(new SSTPlanner());
 
+    m_menu_variables = MenuVariables{PointViewer{ui->start_x,ui->start_y},PointViewer{ui->goal_x,ui->goal_y}};
+
+    m_menu_variables.startPoint().bindPoint(&m_view_model.startPoint());
+    m_menu_variables.goalPoint().bindPoint(&m_view_model.goalPoint());
+
+    m_view_model.setMenuVariables(&m_menu_variables);
+    m_view_model.setCustomPlot(ui->customPlot);
 
     ui->envComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getEnvironmentNames()));
     ui->plannerComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getPlannerNames()));
 
-    m_view_model.setCustomPlot(ui->customPlot);
-    m_view_model.environmentChanged(ui->envComboBox->currentText().toStdString());
+    //m_view_model.environmentChanged(ui->envComboBox->currentText().toStdString());
 }
 
 MainWindow::~MainWindow(){
     delete ui;
 }
-
-void MainWindow::setStartPoint(Point start_point){
-    ui->start_x->setText(QString::number(start_point.x));
-    ui->start_y->setText(QString::number(start_point.y));
-}
-
-void MainWindow::setGoalPoint(Point goal_point){
-    ui->goal_x->setText(QString::number(goal_point.x));
-    ui->goal_y->setText(QString::number(goal_point.y));
-}
-
 
 void MainWindow::on_pushButton_clicked(){
     auto* planner = m_view_model.getPlanner(ui->plannerComboBox->currentText().toStdString());
@@ -95,4 +90,99 @@ void MainWindow::on_envComboBox_currentTextChanged(const QString &selectedEnviro
     ui->customPlot->clearPlottables();
     m_view_model.setCustomPlot(ui->customPlot);
     m_view_model.environmentChanged(selectedEnvironment.toStdString());
+}
+
+void MainWindow::on_start_x_textEdited(const QString &new_value){
+    bool ok;
+    double d_value = new_value.toDouble(&ok);
+    if(ok){
+        double max_value{100};
+        if(std::abs(d_value) > max_value){
+            if(d_value > 0){
+                m_menu_variables.startPoint().setX(max_value);
+            }else{
+                m_menu_variables.startPoint().setX(-max_value);
+            }
+        }else{
+            m_menu_variables.startPoint().setPointX(d_value);
+        }
+    }else{
+        ui->start_x->setText(QString::number(m_menu_variables.startPoint().x()));
+    }
+}
+
+void MainWindow::on_start_x_editingFinished(){
+    ui->customPlot->clearPlottables();
+    m_view_model.setCustomPlot(ui->customPlot);
+    m_view_model.environmentRedraw(ui->envComboBox->currentText().toStdString());
+}
+
+
+void MainWindow::on_start_y_textEdited(const QString &new_value){
+    bool ok;
+    double d_value = new_value.toDouble(&ok);
+    if(ok){
+        double max_value{100};
+        if(std::abs(d_value) > max_value){
+            if(d_value > 0){
+                m_menu_variables.startPoint().setY(max_value);
+            }else{
+                m_menu_variables.startPoint().setY(-max_value);
+            }
+        }else{
+            m_menu_variables.startPoint().setPointY(d_value);
+        }
+    }else{
+        ui->start_y->setText(QString::number(m_menu_variables.startPoint().y()));
+    }
+}
+
+void MainWindow::on_start_y_editingFinished(){
+    on_start_x_editingFinished();
+}
+
+void MainWindow::on_goal_x_textEdited(const QString &new_value){
+    bool ok;
+    double d_value = new_value.toDouble(&ok);
+    if(ok){
+        double max_value{100};
+        if(std::abs(d_value) > max_value){
+            if(d_value > 0){
+                m_menu_variables.goalPoint().setX(max_value);
+            }else{
+                m_menu_variables.goalPoint().setX(-max_value);
+            }
+        }else{
+            m_menu_variables.goalPoint().setPointX(d_value);
+        }
+    }else{
+        ui->goal_x->setText(QString::number(m_menu_variables.goalPoint().x()));
+    }
+}
+
+void MainWindow::on_goal_x_editingFinished(){
+    on_start_x_editingFinished();
+}
+
+void MainWindow::on_goal_y_textEdited(const QString &new_value){
+    bool ok;
+    double d_value = new_value.toDouble(&ok);
+    if(ok){
+        double max_value{100};
+        if(std::abs(d_value) > max_value){
+            if(d_value > 0){
+                m_menu_variables.goalPoint().setY(max_value);
+            }else{
+                m_menu_variables.goalPoint().setY(-max_value);
+            }
+        }else{
+            m_menu_variables.goalPoint().setPointY(d_value);
+        }
+    }else{
+        ui->goal_y->setText(QString::number(m_menu_variables.goalPoint().y()));
+    }
+}
+
+void MainWindow::on_goal_y_editingFinished(){
+    on_start_x_editingFinished();
 }

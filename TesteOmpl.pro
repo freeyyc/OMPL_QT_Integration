@@ -33,7 +33,9 @@ SOURCES += \
         obstacle.cpp \
         plannercomparer.cpp \
         qcustomplot.cpp \
-    plot.cpp
+    plot.cpp \
+    pointviewer.cpp \
+    menuvariables.cpp
 
 HEADERS += \
         Envs/cercadoenv.h \
@@ -66,7 +68,9 @@ HEADERS += \
         utils.h \
     Planners/planners.h \
     Envs/envs.h \
-    plot.h
+    plot.h \
+    pointviewer.h \
+    menuvariables.h
 
 FORMS += \
         mainwindow.ui \

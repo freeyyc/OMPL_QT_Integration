@@ -70,6 +70,17 @@ QCPCurve* CustomDrawer::drawLine(Point P1, Point P2 , Qt::GlobalColor color){
     return curve;
 }
 
+void CustomDrawer::drawPoint(Point p, Qt::GlobalColor color){
+    QVector<double> x(1);
+    QVector<double> y(1);
+
+    x[0] = p.x;
+    y[0] = p.y;
+
+    QCPCurve* curve = drawPoints(x,y,color);
+    curve->setScatterStyle(QCPScatterStyle::ssCross);
+}
+
 void CustomDrawer::drawMap2d(const Map2d & map, Qt::GlobalColor color){
     auto num_obstacles = map.numObstacles();
     for(unsigned i = 0; i < num_obstacles; i++){

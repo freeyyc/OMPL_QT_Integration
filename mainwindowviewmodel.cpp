@@ -51,9 +51,22 @@ void MainWindowViewModel::environmentChanged(std::string name){
         m_custom_drawer.drawMap2d(env->getMap());
         m_custom_plot->xAxis->setRange(-100, 100);
         m_custom_plot->yAxis->setRange(-100, 100);
+        m_menu_variables->startPoint().set(env->getStartPoint());
+        m_menu_variables->goalPoint().set(env->getGoalPoint());
+        m_custom_drawer.drawPoint(env->getStartPoint(),Qt::green);
+        m_custom_drawer.drawPoint(env->getGoalPoint(),Qt::red);
         m_custom_plot->replot();
-        m_start_point = env->getStartPoint();
-        m_goal_point = env->getGoalPoint();
+    }
+}
+
+void MainWindowViewModel::environmentRedraw(std::string name){
+    if(auto * env = getEnvironment(name)){
+        m_custom_drawer.drawMap2d(env->getMap());
+        m_custom_plot->xAxis->setRange(-100, 100);
+        m_custom_plot->yAxis->setRange(-100, 100);
+        m_custom_drawer.drawPoint(m_menu_variables->startPoint().get(),Qt::green);
+        m_custom_drawer.drawPoint(m_menu_variables->goalPoint().get(),Qt::red);
+        m_custom_plot->replot();
     }
 }
 

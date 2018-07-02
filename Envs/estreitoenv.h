@@ -15,6 +15,14 @@ public:
         map.insertObstacle(Obstacle{{-30, 10},{30,100}});
         return map;
     }
+
+    virtual Point getStartPoint() const override{
+        return {-30, 50};
+    }
+
+    virtual Point getGoalPoint() const override{
+        return {30, -50};
+    }
 };
 
 #endif // ESTREITOENV_H
