@@ -155,7 +155,7 @@ void MainWindowViewModel::plan(PlannerInterface * planner_interface, EnvInterfac
          std::cout << "No solution found" << std::endl;
 }
 
-void benchmark(std::vector<PlannerInterface*> planners_interface, EnvInterface* environment_interface, Point start_point, Point goal_point){
+void MainWindowViewModel::benchmark(std::vector<PlannerInterface*> planners_interface, EnvInterface* environment_interface, Point start_point, Point goal_point){
     // construct the state space we are planning in
     auto space(std::make_shared<ob::RealVectorStateSpace>(2));
 
@@ -194,7 +194,7 @@ void benchmark(std::vector<PlannerInterface*> planners_interface, EnvInterface* 
     ompl::tools::Benchmark b(ss, "my experiment");
 
     for(auto * planner_interface:planners_interface){
-        b.addPlanner(planner_interface->getPlanner());
+        b.addPlanner(planner_interface->getPlanner(si));
     }
 
     // Now we can benchmark: 5 second time limit for each plan computation,

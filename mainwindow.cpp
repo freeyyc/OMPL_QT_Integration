@@ -41,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow){
     ui->setupUi(this);
 
+    this->setWindowTitle("Planejador de Rotas");
+
     m_view_model.addEnviroment(new DensoEnv());
     m_view_model.addEnviroment(new CercadoEnv());
     m_view_model.addEnviroment(new EstreitoEnv());
@@ -270,4 +272,9 @@ void MainWindow::on_adicionarPushButton_clicked(){
 void MainWindow::on_executarPushButton_clicked(){
     auto* environment = m_view_model.getEnvironment(ui->envComboBox->currentText().toStdString());
     m_view_model.benchmark(benchmark_planners,environment,m_view_model.startPoint(),m_view_model.goalPoint());
+}
+
+void MainWindow::on_limparPushButton_clicked()
+{
+    benchmark_planners.clear();
 }
