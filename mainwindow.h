@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "mainwindowviewmodel.h"
 #include "menuvariables.h"
+#include <vector>
+#include <ompl/base/Planner.h>
 
 namespace Ui {
 class MainWindow;
@@ -38,6 +40,7 @@ private slots:
 
 private:
     void pointsEditingFinished();
+    std::vector<ompl::base::PlannerPtr> benchmark_planners;
     MenuVariables m_menu_variables;
     Ui::MainWindow *ui;
     MainWindowViewModel m_view_model;
