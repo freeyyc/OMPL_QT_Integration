@@ -42,6 +42,8 @@ private slots:
 
     void on_executarPushButton_clicked();
 
+    void on_limparPushButton_clicked();
+
 private:
     void pointsEditingFinished();
     std::vector<PlannerInterface*> benchmark_planners;
