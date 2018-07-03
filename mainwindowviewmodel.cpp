@@ -1,5 +1,7 @@
 #include "mainwindowviewmodel.h"
 #include "mapstatevaliditychecker.h"
+#include <ompl/geometric/SimpleSetup.h>
+#include <ompl/tools/benchmark/Benchmark.h>
 
 using std::unordered_map;
 using std::vector;
@@ -151,4 +153,58 @@ void MainWindowViewModel::plan(PlannerInterface * planner_interface, EnvInterfac
      }
      else
          std::cout << "No solution found" << std::endl;
+}
+
+void benchmark(std::vector<PlannerInterface*> planners_interface, EnvInterface* environment_interface, Point start_point, Point goal_point){
+    // construct the state space we are planning in
+    auto space(std::make_shared<ob::RealVectorStateSpace>(2));
+
+    // set the bounds for the R^3 part of SE(3)
+    ob::RealVectorBounds bounds(2);
+    bounds.setLow(-100);
+    bounds.setHigh(100);
+
+    space->setBounds(bounds);
+
+    // construct an instance of  space information from this state space
+    auto si(std::make_shared<ob::SpaceInformation>(space));
+
+    auto map = environment_interface->getMap();
+
+    auto map_state_checker(std::make_shared<MapStateValidityChecker>(si,map));
+
+    // set state validity checking for this space
+//     si->setStateValidityChecker(isStateValid);
+    si->setStateValidityChecker(map_state_checker);
+
+    // create a random start state
+    ob::ScopedState<ob::RealVectorStateSpace> start(space);
+    start->values[0] = start_point.x;
+    start->values[1] = start_point.y;
+
+
+    // create a random goal state
+    ob::ScopedState<ob::RealVectorStateSpace> goal(space);
+    goal->values[0] = goal_point.x;
+    goal->values[1] = goal_point.y;
+
+    ompl::geometric::SimpleSetup ss(si);
+
+    // First we create a benchmark class:
+    ompl::tools::Benchmark b(ss, "my experiment");
+
+    for(auto * planner_interface:planners_interface){
+        b.addPlanner(planner_interface->getPlanner());
+    }
+
+    // Now we can benchmark: 5 second time limit for each plan computation,
+    // 100 MB maximum memory usage per plan computation, 50 runs for each planner
+    // and true means that a text-mode progress bar should be displayed while
+    // computation is running.
+    ompl::tools::Benchmark::Request req;
+    req.maxTime = 1.0;
+    req.maxMem = 100.0;
+    req.runCount = 10;
+    req.displayProgress = true;
+    b.benchmark(req);
 }

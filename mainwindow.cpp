@@ -15,6 +15,7 @@
 #include <ompl/geometric/planners/prm/PRM.h>
 #include <ompl/geometric/planners/cforest/CForest.h>
 #include <ompl/geometric/SimpleSetup.h>
+#include <ompl/tools/benchmark/Benchmark.h>
 
 #include <ompl/config.h>
 #include <iostream>
@@ -262,9 +263,9 @@ void MainWindow::on_goalBiasLineEdit_editingFinished(){
 
 
 void MainWindow::on_adicionarPushButton_clicked(){
-
 }
 
 void MainWindow::on_executarPushButton_clicked(){
-
+    auto* environment = m_view_model.getEnvironment(ui->envComboBox->currentText().toStdString());
+    m_view_model.benchmark(benchmark_planners,environment,m_view_model.startPoint(),m_view_model.goalPoint());
 }
