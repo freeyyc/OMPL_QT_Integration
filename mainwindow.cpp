@@ -263,6 +263,8 @@ void MainWindow::on_goalBiasLineEdit_editingFinished(){
 
 
 void MainWindow::on_adicionarPushButton_clicked(){
+    auto* planner = m_view_model.getPlanner(ui->plannerComboBox->currentText().toStdString());
+    benchmark_planners.push_back(planner);
 }
 
 void MainWindow::on_executarPushButton_clicked(){
