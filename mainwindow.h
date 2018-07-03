@@ -44,7 +44,7 @@ private slots:
 
 private:
     void pointsEditingFinished();
-    std::vector<ompl::base::PlannerPtr> benchmark_planners;
+    std::vector<PlannerInterface*> benchmark_planners;
     MenuVariables m_menu_variables;
     Ui::MainWindow *ui;
     MainWindowViewModel m_view_model;
