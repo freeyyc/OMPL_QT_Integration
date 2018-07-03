@@ -35,7 +35,8 @@ SOURCES += \
         qcustomplot.cpp \
     plot.cpp \
     pointviewer.cpp \
-    menuvariables.cpp
+    menuvariables.cpp \
+    mapplannerconfiguration.cpp
 
 HEADERS += \
         Envs/cercadoenv.h \
@@ -70,7 +71,12 @@ HEADERS += \
     Envs/envs.h \
     plot.h \
     pointviewer.h \
-    menuvariables.h
+    menuvariables.h \
+    plannerconfigurationinterface.h \
+    configurationinterface.h \
+    mapplannerconfiguration.h \
+    rangeconfiguration.h \
+    goalbiasconfiguration.h
 
 FORMS += \
         mainwindow.ui \

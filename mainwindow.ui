@@ -73,7 +73,7 @@
      <string>Algoritmo</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
+   <widget class="QLabel" name="rangeLabel">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -86,7 +86,7 @@
      <string>Passo</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_4">
+   <widget class="QLabel" name="goalBiasLabel">
     <property name="geometry">
      <rect>
       <x>40</x>
@@ -99,7 +99,7 @@
      <string>Bias</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="rangeLineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -109,7 +109,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_2">
+   <widget class="QLineEdit" name="goalBiasLineEdit">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -155,12 +155,12 @@
      <string>Fim</string>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>240</y>
-      <width>111</width>
+      <width>124</width>
       <height>27</height>
      </rect>
     </property>
@@ -186,12 +186,12 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>20</x>
       <y>290</y>
-      <width>111</width>
+      <width>124</width>
       <height>27</height>
      </rect>
     </property>

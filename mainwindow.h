@@ -22,24 +22,22 @@ private slots:
 
     void on_envComboBox_currentTextChanged(const QString &arg1);
 
-
-    void on_start_x_textEdited(const QString &arg1);
+    void on_plannerComboBox_currentTextChanged(const QString &arg1);
 
     void on_start_x_editingFinished();
 
-    void on_start_y_textEdited(const QString &arg1);
-
     void on_start_y_editingFinished();
-
-    void on_goal_x_textEdited(const QString &arg1);
 
     void on_goal_x_editingFinished();
 
-    void on_goal_y_textEdited(const QString &arg1);
-
     void on_goal_y_editingFinished();
 
+    void on_rangeLineEdit_editingFinished();
+
+    void on_goalBiasLineEdit_editingFinished();
+
 private:
+    void pointsEditingFinished();
     MenuVariables m_menu_variables;
     Ui::MainWindow *ui;
     MainWindowViewModel m_view_model;

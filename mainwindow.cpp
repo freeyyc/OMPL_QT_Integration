@@ -26,6 +26,9 @@
 #include "utils.h"
 #include "Envs/envs.h"
 #include "Planners/planners.h"
+#include "rangeconfiguration.h"
+#include "goalbiasconfiguration.h"
+
 
 #include "plot.h"
 
@@ -66,8 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->envComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getEnvironmentNames()));
     ui->plannerComboBox->addItems(convert_vector_to_qstringlist(m_view_model.getPlannerNames()));
-
-    //m_view_model.environmentChanged(ui->envComboBox->currentText().toStdString());
 }
 
 MainWindow::~MainWindow(){
@@ -93,7 +94,38 @@ void MainWindow::on_envComboBox_currentTextChanged(const QString &selectedEnviro
     m_view_model.environmentChanged(selectedEnvironment.toStdString());
 }
 
-void MainWindow::on_start_x_textEdited(const QString &new_value){
+void MainWindow::on_plannerComboBox_currentTextChanged(const QString &selectedPlanner){
+    auto * planner_interface = m_view_model.getPlanner(selectedPlanner.toStdString());
+    if(planner_interface){
+        if(auto * configuration = planner_interface->getConfigurations()->getConfiguration(RangeConfiguration().getName())){
+            ui->rangeLabel->show();
+            ui->rangeLineEdit->show();
+            auto* range_configuration = static_cast<RangeConfiguration*>(configuration);
+            ui->rangeLineEdit->setText(QString::number(range_configuration->getRange()));
+        }else{
+            ui->rangeLabel->hide();
+            ui->rangeLineEdit->hide();
+        }
+        if(auto * configuration = planner_interface->getConfigurations()->getConfiguration(GoalBiasConfiguration().getName())){
+            ui->goalBiasLabel->show();
+            ui->goalBiasLineEdit->show();
+            auto* goal_bias_configuration = static_cast<GoalBiasConfiguration*>(configuration);
+            ui->goalBiasLineEdit->setText(QString::number(goal_bias_configuration->getGoalBias()));
+        }else{
+            ui->goalBiasLabel->hide();
+            ui->goalBiasLineEdit->hide();
+        }
+    }
+}
+
+void MainWindow::pointsEditingFinished(){
+    ui->customPlot->clearPlottables();
+    m_view_model.setCustomPlot(ui->customPlot);
+    m_view_model.environmentRedraw(ui->envComboBox->currentText().toStdString());
+}
+
+void MainWindow::on_start_x_editingFinished(){
+    const auto & new_value = ui->start_x->text();
     bool ok;
     double d_value = new_value.toDouble(&ok);
     if(ok){
@@ -110,16 +142,11 @@ void MainWindow::on_start_x_textEdited(const QString &new_value){
     }else{
         ui->start_x->setText(QString::number(m_menu_variables.startPoint().x()));
     }
+    pointsEditingFinished();
 }
 
-void MainWindow::on_start_x_editingFinished(){
-    ui->customPlot->clearPlottables();
-    m_view_model.setCustomPlot(ui->customPlot);
-    m_view_model.environmentRedraw(ui->envComboBox->currentText().toStdString());
-}
-
-
-void MainWindow::on_start_y_textEdited(const QString &new_value){
+void MainWindow::on_start_y_editingFinished(){
+    const auto & new_value = ui->start_y->text();
     bool ok;
     double d_value = new_value.toDouble(&ok);
     if(ok){
@@ -136,13 +163,11 @@ void MainWindow::on_start_y_textEdited(const QString &new_value){
     }else{
         ui->start_y->setText(QString::number(m_menu_variables.startPoint().y()));
     }
+    pointsEditingFinished();
 }
 
-void MainWindow::on_start_y_editingFinished(){
-    on_start_x_editingFinished();
-}
-
-void MainWindow::on_goal_x_textEdited(const QString &new_value){
+void MainWindow::on_goal_x_editingFinished(){
+    const auto & new_value = ui->goal_x->text();
     bool ok;
     double d_value = new_value.toDouble(&ok);
     if(ok){
@@ -159,13 +184,11 @@ void MainWindow::on_goal_x_textEdited(const QString &new_value){
     }else{
         ui->goal_x->setText(QString::number(m_menu_variables.goalPoint().x()));
     }
+    pointsEditingFinished();
 }
 
-void MainWindow::on_goal_x_editingFinished(){
-    on_start_x_editingFinished();
-}
-
-void MainWindow::on_goal_y_textEdited(const QString &new_value){
+void MainWindow::on_goal_y_editingFinished(){
+    const auto & new_value = ui->goal_y->text();
     bool ok;
     double d_value = new_value.toDouble(&ok);
     if(ok){
@@ -182,8 +205,58 @@ void MainWindow::on_goal_y_textEdited(const QString &new_value){
     }else{
         ui->goal_y->setText(QString::number(m_menu_variables.goalPoint().y()));
     }
+    pointsEditingFinished();
 }
 
-void MainWindow::on_goal_y_editingFinished(){
-    on_start_x_editingFinished();
+void MainWindow::on_rangeLineEdit_editingFinished(){
+    const auto & new_value = ui->rangeLineEdit->text();
+    bool ok;
+    double d_value = new_value.toDouble(&ok);
+    if(auto * planner_interface = m_view_model.getPlanner(ui->plannerComboBox->currentText().toStdString())){
+        if(auto * configuration_interface = planner_interface->getConfigurations()){
+            if(auto * configuration = configuration_interface->getConfiguration(RangeConfiguration().getName())){
+                auto * range_configuration = static_cast<RangeConfiguration*>(configuration);
+                if(ok){
+                    if(d_value < 0.0){
+                        range_configuration->setRange(0.0);
+                        ui->rangeLineEdit->setText(QString::number(range_configuration->getRange()));
+                    }else{
+                        range_configuration->setRange(d_value);
+                        ui->rangeLineEdit->setText(QString::number(range_configuration->getRange()));
+                    }
+                }else{
+                    ui->rangeLineEdit->setText(QString::number(range_configuration->getRange()));
+                }
+            }
+        }
+    }
 }
+
+
+void MainWindow::on_goalBiasLineEdit_editingFinished(){
+    const auto & new_value = ui->goalBiasLineEdit->text();
+    bool ok;
+    double d_value = new_value.toDouble(&ok);
+    if(auto * planner_interface = m_view_model.getPlanner(ui->plannerComboBox->currentText().toStdString())){
+        if(auto * configuration_interface = planner_interface->getConfigurations()){
+            if(auto * configuration = configuration_interface->getConfiguration(GoalBiasConfiguration().getName())){
+                auto * goal_bias_configuration = static_cast<GoalBiasConfiguration*>(configuration);
+                if(ok){
+                    if(d_value < 0.0){
+                        goal_bias_configuration->setGoalBias(0.0);
+                        ui->goalBiasLineEdit->setText(QString::number(goal_bias_configuration->getGoalBias()));
+                    }else if(d_value > 1.0){
+                        goal_bias_configuration->setGoalBias(1.0);
+                        ui->goalBiasLineEdit->setText(QString::number(goal_bias_configuration->getGoalBias()));
+                    }else{
+                        goal_bias_configuration->setGoalBias(d_value);
+                        ui->goalBiasLineEdit->setText(QString::number(goal_bias_configuration->getGoalBias()));
+                    }
+                }else{
+                    ui->goalBiasLineEdit->setText(QString::number(goal_bias_configuration->getGoalBias()));
+                }
+            }
+        }
+    }
+}
+
