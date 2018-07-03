@@ -25,7 +25,7 @@ public:
         return planner;
     }
     PlannerConfigurationInterface* getConfigurations(){
-        return &m_configurations;+
+        return &m_configurations;
     }
 
 private:
