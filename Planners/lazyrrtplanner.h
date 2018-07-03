@@ -20,7 +20,7 @@ public:
         return std::make_shared<ompl::geometric::LazyRRT>(si);
     }
     PlannerConfigurationInterface* getConfigurations(){
-        return &m_configurations;
+        return &m_configurations;+
     }
 
 private:
