@@ -15,7 +15,11 @@ public:
         return "LazyPRM";
     }
     std::shared_ptr<ompl::base::Planner> getPlanner(std::shared_ptr<ompl::base::SpaceInformation> si) override{
-        return std::make_shared<ompl::geometric::LazyPRM>(si);
+        auto planner = std::make_shared<ompl::geometric::LazyPRM>(si);
+        auto* range_configuration = static_cast<RangeConfiguration*>(m_configurations.getConfiguration(RangeConfiguration().getName()));
+        planner->setRange(range_configuration->getRange());
+        planner->setGoalBias(goal_bias_configuration->getGoalBias());
+        return planner;
     }
     PlannerConfigurationInterface* getConfigurations(){
         return &m_configurations;
