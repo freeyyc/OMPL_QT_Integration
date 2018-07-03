@@ -260,3 +260,11 @@ void MainWindow::on_goalBiasLineEdit_editingFinished(){
     }
 }
 
+
+void MainWindow::on_adicionarPushButton_clicked(){
+
+}
+
+void MainWindow::on_executarPushButton_clicked(){
+
+}

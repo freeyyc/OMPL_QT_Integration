@@ -160,7 +160,7 @@
      <rect>
       <x>30</x>
       <y>250</y>
-      <width>111</width>
+      <width>124</width>
       <height>27</height>
      </rect>
     </property>
@@ -191,7 +191,7 @@
      <rect>
       <x>30</x>
       <y>300</y>
-      <width>111</width>
+      <width>124</width>
       <height>27</height>
      </rect>
     </property>
@@ -229,7 +229,7 @@
     <property name="title">
      <string>Benchmark</string>
     </property>
-    <widget class="QPushButton" name="pushButton_2">
+    <widget class="QPushButton" name="adicionarPushButton">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -242,7 +242,7 @@
       <string>Adicionar</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="executarPushButton">
      <property name="geometry">
       <rect>
        <x>30</x>

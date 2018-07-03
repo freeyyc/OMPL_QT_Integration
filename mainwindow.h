@@ -38,6 +38,10 @@ private slots:
 
     void on_goalBiasLineEdit_editingFinished();
 
+    void on_adicionarPushButton_clicked();
+
+    void on_executarPushButton_clicked();
+
 private:
     void pointsEditingFinished();
     std::vector<ompl::base::PlannerPtr> benchmark_planners;
