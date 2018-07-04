@@ -1,4 +1,21 @@
 #include "mapplannerconfiguration.h"
+#include <iostream>
+
+MapPlannerConfiguration::MapPlannerConfiguration( const MapPlannerConfiguration & other){
+    for(const auto& kv:other.m_configurations){
+        auto * config = kv.second->copy();
+        m_configurations.insert(std::make_pair(config->getName(),config));
+    }
+}
+
+MapPlannerConfiguration & MapPlannerConfiguration::operator=( const MapPlannerConfiguration & other){
+    for(const auto& kv:other.m_configurations){
+        auto * config = kv.second->copy();
+        m_configurations.insert({config->getName(),config});
+        m_configurations[config->getName()]->setValue(config->getValue());
+    }
+    return *this;
+}
 
 void MapPlannerConfiguration::addConfiguration(ConfigurationInterface * config){
     if(config){

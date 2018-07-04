@@ -28,6 +28,12 @@ public:
         return &m_configurations;
     }
 
+    virtual PlannerInterface* copy(){
+        auto * copy_planner = new RRTSharpPlanner;
+        copy_planner->m_configurations = m_configurations;
+        return copy_planner;
+    }
+
 private:
     MapPlannerConfiguration m_configurations;
 };

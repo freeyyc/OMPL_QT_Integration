@@ -6,6 +6,8 @@
 class MapPlannerConfiguration: public PlannerConfigurationInterface {
 public:
     MapPlannerConfiguration(){}
+    MapPlannerConfiguration( const MapPlannerConfiguration & );
+    MapPlannerConfiguration & operator=( const MapPlannerConfiguration & );
     void addConfiguration(ConfigurationInterface * config) override;
     std::vector<std::string> getConfigurationsNames() const override;
     ConfigurationInterface* getConfiguration(std::string name) override;

@@ -156,6 +156,7 @@ void MainWindowViewModel::plan(PlannerInterface * planner_interface, EnvInterfac
 }
 
 void MainWindowViewModel::benchmark(std::vector<PlannerInterface*> planners_interface, EnvInterface* environment_interface, Point start_point, Point goal_point){
+    std::locale::global(std::locale::classic());
     // construct the state space we are planning in
     auto space(std::make_shared<ob::RealVectorStateSpace>(2));
 

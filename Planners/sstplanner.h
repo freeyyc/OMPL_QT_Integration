@@ -29,6 +29,12 @@ public:
         return &m_configurations;
     }
 
+    PlannerInterface* copy() override{
+        auto * copy_planner = new SSTPlanner;
+        copy_planner->m_configurations = m_configurations;
+        return copy_planner;
+    }
+
 private:
     MapPlannerConfiguration m_configurations;
 };

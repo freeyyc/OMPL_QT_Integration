@@ -24,6 +24,9 @@ public:
         }
         m_range = range;
     }
+    ConfigurationInterface* copy() const override{
+        return new RangeConfiguration{m_range};
+    }
 private:
     double m_range;
 };

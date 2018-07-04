@@ -265,8 +265,67 @@ void MainWindow::on_goalBiasLineEdit_editingFinished(){
 
 
 void MainWindow::on_adicionarPushButton_clicked(){
+//    MapPlannerConfiguration m_configurations;
+//    m_configurations.addConfiguration(new RangeConfiguration{5.0});
+//    m_configurations.addConfiguration(new GoalBiasConfiguration{0.05});
+
+//    MapPlannerConfiguration outro = m_configurations;
+
+//    for(auto & name:m_configurations.getConfigurationsNames()){
+//        std::cout << name << std::endl;
+//        std::cout << m_configurations.getConfiguration(name)->getValue() << std::endl;
+//    }
+
+//    m_configurations.getConfiguration("Range")->setValue("30");
+//    std::cout << "---------------------------------------\n";
+
+//    for(auto & name:outro.getConfigurationsNames()){
+//        std::cout << name << std::endl;
+//        std::cout << outro.getConfiguration(name)->getValue() << std::endl;
+//    }
+//    std::cout << "---------------------------------------\n";
+//    for(auto & name:m_configurations.getConfigurationsNames()){
+//        std::cout << name << std::endl;
+//        std::cout << m_configurations.getConfiguration(name)->getValue() << std::endl;
+//    }
+
+//    std::cout << "Planners ---------------------------------------\n";
+
+//    PlannerInterface * rrt1 = new RRTPlanner();
+//    PlannerInterface * rrt2 = rrt1->copy();
+
+//    rrt1->getConfigurations()->getConfiguration("Range")->setValue("45");
+
+//    for(auto & name:rrt1->getConfigurations()->getConfigurationsNames()){
+//        std::cout << name << std::endl;
+//        std::cout << rrt1->getConfigurations()->getConfiguration(name)->getValue() << std::endl;
+//    }
+
+//    std::cout << "---------------------------------------\n";
+
+//    for(auto & name:rrt2->getConfigurations()->getConfigurationsNames()){
+//        std::cout << name << std::endl;
+//        std::cout << rrt2->getConfigurations()->getConfiguration(name)->getValue() << std::endl;
+//    }
+
+    std::cout << "Inicio---------------------------------------\n";
+
     auto* planner = m_view_model.getPlanner(ui->plannerComboBox->currentText().toStdString());
-    benchmark_planners.push_back(planner);
+    for(auto & name:planner->getConfigurations()->getConfigurationsNames()){
+        std::cout << name << std::endl;
+        std::cout << planner->getConfigurations()->getConfiguration(name)->getValue() << std::endl;
+    }
+
+    std::cout << "---------------------------------------\n";
+
+    auto* copy = planner->copy();
+
+    for(auto & name:copy->getConfigurations()->getConfigurationsNames()){
+        std::cout << name << std::endl;
+        std::cout << copy->getConfigurations()->getConfiguration(name)->getValue() << std::endl;
+    }
+
+    benchmark_planners.push_back(copy);
 }
 
 void MainWindow::on_executarPushButton_clicked(){

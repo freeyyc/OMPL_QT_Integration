@@ -27,6 +27,9 @@ public:
         }
         m_goal_bias = goal_bias;
     }
+    ConfigurationInterface* copy() const override{
+        return new GoalBiasConfiguration{m_goal_bias};
+    }
 private:
     double m_goal_bias;
 };
