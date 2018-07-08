@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "benchmark.h"
 #include "ui_benchmark.h"
 
@@ -68,5 +69,10 @@ void Benchmark::on_runCountlineEdit_editingFinished(){
 }
 
 void Benchmark::on_executarPushBootton_clicked(){
+    ui->executarPushBootton->setEnabled(false);
     m_view_model->benchmark(benchmark_planners,environment,m_view_model->startPoint(),m_view_model->goalPoint(), m_max_time, m_max_mem, m_run_count);
+
+    QMessageBox m_msg_box;
+    m_msg_box.information(this, tr("Benchmark Status"), tr("Benchmark Finalizado"));
+    ui->executarPushBootton->setEnabled(true);
 }
