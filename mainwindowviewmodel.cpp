@@ -2,6 +2,7 @@
 #include "mapstatevaliditychecker.h"
 #include <ompl/geometric/SimpleSetup.h>
 #include <ompl/tools/benchmark/Benchmark.h>
+#include <algorithm>
 
 using std::unordered_map;
 using std::vector;
@@ -197,8 +198,13 @@ void MainWindowViewModel::benchmark(std::vector<PlannerInterface*> planners_inte
     // First we create a benchmark class:
     ompl::tools::Benchmark b(ss, "my experiment");
 
+    vector<string> names;
     for(auto * planner_interface:planners_interface){
-        b.addPlanner(planner_interface->getPlanner(si));
+        auto planner = planner_interface->getPlanner(si);
+        names.push_back(planner->getName());
+        int count = std::count(names.begin(),names.end(),planner->getName());
+        planner->setName(planner->getName()+std::to_string(count));
+        b.addPlanner(planner);
     }
 
     // Now we can benchmark: 5 second time limit for each plan computation,
