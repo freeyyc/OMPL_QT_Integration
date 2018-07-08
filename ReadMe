@@ -1,0 +1,5 @@
+Para processar os dados de saida do benchmark, ache o arquivo que foi gerado ResultadosBenchmark.log e rode o comando abaixo substituindo pelo caminho correto
+
+python ompl_benchmark_statistics.py ../build-TesteOmpl-Desktop_Qt_5_7_1_GCC_64bit-Debug/ResultadosBenchmark.log -d database.db
+
+Depois entre no site http://plannerarena.org/ e veja o resultado
