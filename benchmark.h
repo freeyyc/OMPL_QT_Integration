@@ -30,6 +30,9 @@ private:
     EnvInterface* environment;
     MainWindowViewModel* m_view_model;
     std::vector<PlannerInterface*> benchmark_planners;
+    double m_max_time;
+    double m_max_mem;
+    int m_run_count;
     Ui::Benchmark *ui;
 };
 

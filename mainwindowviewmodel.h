@@ -38,7 +38,7 @@ public:
     void drawStartGoalPoints(Point start, Point goal);
 
     void plan(PlannerInterface *, EnvInterface *, Point start_point, Point goal_point);
-    void benchmark(std::vector<PlannerInterface*>, EnvInterface*, Point start_point, Point goal_point);
+    void benchmark(std::vector<PlannerInterface*>, EnvInterface*, Point start_point, Point goal_point, double max_time, double max_mem, int run_count);
 
     Point & startPoint(){return m_start_point;}
     Point & goalPoint(){return m_goal_point;}

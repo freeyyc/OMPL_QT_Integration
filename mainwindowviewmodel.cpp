@@ -155,7 +155,7 @@ void MainWindowViewModel::plan(PlannerInterface * planner_interface, EnvInterfac
          std::cout << "No solution found" << std::endl;
 }
 
-void MainWindowViewModel::benchmark(std::vector<PlannerInterface*> planners_interface, EnvInterface* environment_interface, Point start_point, Point goal_point){
+void MainWindowViewModel::benchmark(std::vector<PlannerInterface*> planners_interface, EnvInterface* environment_interface, Point start_point, Point goal_point, double max_time, double max_mem, int run_count){
     std::locale::global(std::locale::classic());
     // construct the state space we are planning in
     auto space(std::make_shared<ob::RealVectorStateSpace>(2));
@@ -206,10 +206,10 @@ void MainWindowViewModel::benchmark(std::vector<PlannerInterface*> planners_inte
     // and true means that a text-mode progress bar should be displayed while
     // computation is running.
     ompl::tools::Benchmark::Request req;
-    req.maxTime = 1.0;
-    req.maxMem = 100.0;
-    req.runCount = 10;
+    req.maxTime = max_time;
+    req.maxMem = max_mem;
+    req.runCount = run_count;
     req.displayProgress = true;
     b.benchmark(req);
-    b.saveResultsToFile("NomeLouco.log");
+    b.saveResultsToFile("ResultadosBenchmark.log");
 }
