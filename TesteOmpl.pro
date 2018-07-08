@@ -36,7 +36,8 @@ SOURCES += \
     plot.cpp \
     pointviewer.cpp \
     menuvariables.cpp \
-    mapplannerconfiguration.cpp
+    mapplannerconfiguration.cpp \
+    benchmark.cpp
 
 HEADERS += \
         Envs/cercadoenv.h \
@@ -76,11 +77,13 @@ HEADERS += \
     configurationinterface.h \
     mapplannerconfiguration.h \
     rangeconfiguration.h \
-    goalbiasconfiguration.h
+    goalbiasconfiguration.h \
+    benchmark.h
 
 FORMS += \
         mainwindow.ui \
-    plot.ui
+    plot.ui \
+    benchmark.ui
 
 unix: CONFIG += link_pkgconfig
 unix: PKGCONFIG += ompl

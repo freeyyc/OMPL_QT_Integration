@@ -32,6 +32,7 @@
 
 
 #include "plot.h"
+#include "benchmark.h"
 
 namespace ob = ompl::base;
 namespace og = ompl::geometric;
@@ -330,7 +331,9 @@ void MainWindow::on_adicionarPushButton_clicked(){
 
 void MainWindow::on_executarPushButton_clicked(){
     auto* environment = m_view_model.getEnvironment(ui->envComboBox->currentText().toStdString());
-    m_view_model.benchmark(benchmark_planners,environment,m_view_model.startPoint(),m_view_model.goalPoint());
+
+    Benchmark* benchmark = new Benchmark{nullptr, environment, &m_view_model, benchmark_planners};
+    benchmark->show();
 }
 
 void MainWindow::on_limparPushButton_clicked()
